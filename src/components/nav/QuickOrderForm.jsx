@@ -1,9 +1,17 @@
 import { weeklyMenu } from './navData';
 
-function QuickOrderForm({ isOpen, onAddToCart }) {
+function QuickOrderForm({
+  isOpen,
+  onAddToCart,
+  cartItems = [],
+  onDecreaseCartItem,
+}) {
   if (!isOpen) {
     return null;
   }
+
+  const getCartItem = (day, itemName) =>
+    cartItems.find((c) => c.day === day && c.name === itemName) || null;
 
   return (
     <section
@@ -28,13 +36,42 @@ function QuickOrderForm({ isOpen, onAddToCart }) {
                     className="order-form-item"
                   >
                     <p>{item.name}</p>
-                    <button
-                      type="button"
-                      className="order-form-item__add"
-                      onClick={() => onAddToCart(dayMenu.day, item)}
-                    >
-                      Add
-                    </button>
+                    {(() => {
+                      const cartItem = getCartItem(dayMenu.day, item.name);
+                      return cartItem ? (
+                        <div className="order-form-item__stepper">
+                          <button
+                            type="button"
+                            className="order-form-item__stepper-btn"
+                            aria-label="Increase quantity"
+                            onClick={() => onAddToCart(dayMenu.day, item)}
+                          >
+                            ▲
+                          </button>
+                          <span className="order-form-item__qty">
+                            {cartItem.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            className="order-form-item__stepper-btn"
+                            aria-label="Decrease quantity"
+                            onClick={() => {
+                              onDecreaseCartItem(cartItem.id);
+                            }}
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          className="order-form-item__add"
+                          onClick={() => onAddToCart(dayMenu.day, item)}
+                        >
+                          Add
+                        </button>
+                      );
+                    })()}
                   </div>
                 ))}
               </div>

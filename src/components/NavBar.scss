@@ -502,6 +502,50 @@
   }
 }
 
+.order-form-item__stepper {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.28rem;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.order-form-item__stepper-btn {
+  border: 0;
+  background: transparent;
+  color: #2f7f3e;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.order-form-item__qty {
+  color: #2f7f3e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 0;
+  height: auto;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .weekly-menu-modal {
   width: min(100%, 980px);
   background: linear-gradient(180deg, #f7f2e9 0%, #f3ede2 100%);

@@ -75,6 +75,19 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const clickedInsideOrderForm = event.target.closest('#order-form-panel');
+      const clickedOrderFormToggle = event.target.closest(
+        '[data-order-form-toggle="true"]',
+      );
+
+      if (orderFormOpen && !clickedInsideOrderForm && !clickedOrderFormToggle) {
+        setOrderFormOpen(false);
+      }
+
       if (navRef.current && !navRef.current.contains(event.target)) {
         setMainMenuOpen(false);
         setUserMenuOpen(false);
@@ -86,7 +99,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [orderFormOpen]);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -176,6 +189,16 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const handleRemoveFromCart = (itemId) => {
     setCartItems((currentItems) =>
       currentItems.filter((item) => item.id !== itemId),
+    );
+  };
+
+  const handleDecreaseCartItem = (itemId) => {
+    setCartItems((currentItems) =>
+      currentItems
+        .map((item) =>
+          item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item,
+        )
+        .filter((item) => item.quantity > 0),
     );
   };
 
@@ -336,7 +359,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
               onClick={handleToggleCart}
             >
               Cart
-              <span className="nav-cart-btn__count">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</span>
+              <span className="nav-cart-btn__count">
+                {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
             </button>
           </div>
 
@@ -366,6 +391,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
           <button
             className="btn btn--primary"
             type="button"
+            data-order-form-toggle="true"
             onClick={handleToggleOrderForm}
             aria-expanded={orderFormOpen}
             aria-controls="order-form-panel"
@@ -394,6 +420,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
       <QuickOrderForm
         isOpen={isLoggedIn && orderFormOpen}
         onAddToCart={handleAddToCart}
+        cartItems={cartItems}
+        onRemoveFromCart={handleRemoveFromCart}
+        onDecreaseCartItem={handleDecreaseCartItem}
       />
 
       <WeeklyMenuBoard isOpen={!isLoggedIn && weeklyMenuOpen} />
