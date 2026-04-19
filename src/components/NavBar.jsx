@@ -1,60 +1,10 @@
 import { useState } from 'react';
 import './NavBar.scss';
-import ourStoryIcon from '../assets/Our Story.png';
-import ourAmazingFriendsIcon from '../assets/Our Amazing friends.png';
-import howScrumptiousIcon from '../assets/How Scrumptious.png';
-import theBigDifferenceIcon from '../assets/The Big Difference.png';
-import notSoSweetIcon from '../assets/Not So Sweet.png';
-import organicKidsTvIcon from '../assets/Organic Kids TV.png';
-
-const preferenceGroups = [
-  {
-    title: 'Allergy-safe tags',
-    options: [
-      'Nut-free',
-      'Peanut-free',
-      'Dairy-free',
-      'Egg-free',
-      'Soy-free',
-      'Gluten-free',
-      'Sesame-free',
-      'Shellfish-free',
-    ],
-  },
-  {
-    title: 'Dietary type',
-    options: ['Vegetarian', 'Vegan', 'Halal', 'Kosher', 'Pescatarian'],
-  },
-  {
-    title: 'Nutrition / health',
-    options: [
-      'Low sugar',
-      'Low sodium',
-      'High protein',
-      'Whole grain',
-      'No added sugar',
-      'Organic',
-    ],
-  },
-];
-
-const createKidPreferences = () =>
-  preferenceGroups.reduce((groups, group) => {
-    groups[group.title] = group.options.reduce((options, option) => {
-      options[option] = false;
-      return options;
-    }, {});
-
-    return groups;
-  }, {});
-
-const createKid = (id) => ({
-  id,
-  name: '',
-  isCollapsed: false,
-  showNameInput: true,
-  preferences: createKidPreferences(),
-});
+import CartMenu from './nav/CartMenu';
+import QuickOrderForm from './nav/QuickOrderForm';
+import WeeklyMenuBoard from './nav/WeeklyMenuBoard';
+import PreferencesModal from './nav/PreferencesModal';
+import { createKid, mainMenuItems } from './nav/navData';
 
 const HamburgerIcon = () => (
   <svg
@@ -110,31 +60,28 @@ const UserIcon = () => (
   </svg>
 );
 
-function NavBar() {
+function NavBar({ onNavigateContact, onNavigateHome }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mainMenuOpen, setMainMenuOpen] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [weeklyMenuOpen, setWeeklyMenuOpen] = useState(false);
+  const [orderFormOpen, setOrderFormOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
   const [kids, setKids] = useState([]);
-
-  const mainMenuItems = [
-    { label: 'Our Story', icon: ourStoryIcon },
-    { label: 'Our Amazing Friends', icon: ourAmazingFriendsIcon },
-    { label: 'How Scrumptious', icon: howScrumptiousIcon },
-    { label: 'The Big Difference', icon: theBigDifferenceIcon },
-    { label: 'Not So Sweet', icon: notSoSweetIcon },
-    { label: 'Organi kids TV', icon: organicKidsTvIcon },
-  ];
 
   const handleLogin = () => {
     setIsLoggedIn(true);
     setUserMenuOpen(false);
+    setWeeklyMenuOpen(false);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserMenuOpen(false);
     setPreferencesOpen(false);
+    setOrderFormOpen(false);
   };
 
   const handlePreferences = () => {
@@ -144,6 +91,79 @@ function NavBar() {
 
   const handleClosePreferences = () => {
     setPreferencesOpen(false);
+  };
+
+  const handleOpenContactPage = () => {
+    if (typeof onNavigateContact === 'function') {
+      onNavigateContact();
+    }
+
+    setMainMenuOpen(false);
+    setUserMenuOpen(false);
+    setCartOpen(false);
+  };
+
+  const handleToggleWeeklyMenu = () => {
+    setWeeklyMenuOpen((open) => !open);
+    setMainMenuOpen(false);
+    setUserMenuOpen(false);
+  };
+
+  const handleToggleOrderForm = () => {
+    if (!isLoggedIn) {
+      return;
+    }
+
+    setOrderFormOpen((open) => !open);
+    setMainMenuOpen(false);
+    setUserMenuOpen(false);
+  };
+
+  const handleToggleCart = () => {
+    setCartOpen((open) => !open);
+    setUserMenuOpen(false);
+    setMainMenuOpen(false);
+  };
+
+  const handleAddToCart = (day, item) => {
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find(
+        (cartItem) => cartItem.day === day && cartItem.name === item.name,
+      );
+
+      if (existingItem) {
+        return currentItems.map((cartItem) => {
+          if (cartItem.day === day && cartItem.name === item.name) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity + 1,
+            };
+          }
+
+          return cartItem;
+        });
+      }
+
+      return [
+        ...currentItems,
+        {
+          id: `${day}-${item.name}`,
+          day,
+          name: item.name,
+          quantity: 1,
+        },
+      ];
+    });
+  };
+
+  const handleRemoveFromCart = (itemId) => {
+    setCartItems((currentItems) =>
+      currentItems.filter((item) => item.id !== itemId),
+    );
+  };
+
+  const handleClearCart = () => {
+    setCartItems([]);
   };
 
   const handleAddKid = () => {
@@ -228,7 +248,6 @@ function NavBar() {
 
   return (
     <>
-      {/* Nav Bar 1 — hamburger left, login/user right */}
       <nav className="nav-bar nav-bar-1" aria-label="Main navigation">
         <div className="main-menu-area">
           <button
@@ -239,6 +258,14 @@ function NavBar() {
             onClick={() => setMainMenuOpen((open) => !open)}
           >
             <HamburgerIcon />
+          </button>
+
+          <button
+            type="button"
+            className="nav-contact-btn"
+            onClick={handleOpenContactPage}
+          >
+            Contact Us
           </button>
 
           {mainMenuOpen && (
@@ -253,7 +280,12 @@ function NavBar() {
                   key={item.label}
                   className="main-menu__item"
                   role="menuitem"
-                  onClick={() => setMainMenuOpen(false)}
+                  onClick={() => {
+                    setMainMenuOpen(false);
+                    if (typeof onNavigateHome === 'function') {
+                      onNavigateHome();
+                    }
+                  }}
                 >
                   <img src={item.icon} alt="" aria-hidden="true" />
                   <span>{item.label}</span>
@@ -264,24 +296,37 @@ function NavBar() {
         </div>
 
         <div className="account-area">
-          {isLoggedIn ? (
+          <div className="account-controls">
+            {isLoggedIn ? (
+              <button
+                className="nav-icon-btn"
+                aria-label="Open user menu"
+                onClick={() => setUserMenuOpen((o) => !o)}
+              >
+                <UserIcon />
+              </button>
+            ) : (
+              <button className="nav-login-btn" onClick={handleLogin}>
+                Login
+              </button>
+            )}
+
             <button
-              className="nav-icon-btn"
-              aria-label="Open user menu"
-              onClick={() => setUserMenuOpen((o) => !o)}
+              type="button"
+              className="nav-cart-btn"
+              aria-label="Open cart"
+              aria-expanded={cartOpen}
+              onClick={handleToggleCart}
             >
-              <UserIcon />
+              Cart
+              <span className="nav-cart-btn__count">{cartItems.length}</span>
             </button>
-          ) : (
-            <button className="nav-login-btn" onClick={handleLogin}>
-              Login
-            </button>
-          )}
+          </div>
 
           {isLoggedIn && userMenuOpen && (
             <div className="user-menu" role="menu" aria-label="User menu">
               <button role="menuitem" onClick={handlePreferences}>
-                Preferences
+                Add your kids{' '}
               </button>
               <button role="menuitem">Payment Method</button>
               <button role="menuitem" onClick={handleLogout}>
@@ -289,155 +334,64 @@ function NavBar() {
               </button>
             </div>
           )}
+
+          <CartMenu
+            cartOpen={cartOpen}
+            cartItems={cartItems}
+            onClearCart={handleClearCart}
+            onRemoveItem={handleRemoveFromCart}
+          />
         </div>
       </nav>
 
-      {/* Nav Bar 2 — Order Now & Week Menu centred */}
       <nav className="nav-bar nav-bar-2" aria-label="Actions">
         <div className="nav-actions">
-          <button className="btn btn--primary">Order Now</button>
-          <button className="btn btn--secondary">See This Week Menu</button>
+          <button
+            className="btn btn--primary"
+            type="button"
+            onClick={handleToggleOrderForm}
+            aria-expanded={orderFormOpen}
+            aria-controls="order-form-panel"
+          >
+            {isLoggedIn
+              ? orderFormOpen
+                ? 'Hide Order Form'
+                : 'Order Now'
+              : 'Order Now'}
+          </button>
+
+          {!isLoggedIn && (
+            <button
+              className="btn btn--secondary"
+              type="button"
+              aria-expanded={weeklyMenuOpen}
+              aria-controls="weekly-menu-panel"
+              onClick={handleToggleWeeklyMenu}
+            >
+              {weeklyMenuOpen ? 'Hide This Week Menu' : 'See This Week Menu'}
+            </button>
+          )}
         </div>
       </nav>
 
-      {preferencesOpen && (
-        <div
-          className="preferences-modal-overlay"
-          role="presentation"
-          onClick={handleClosePreferences}
-        >
-          <div
-            className="preferences-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="preferences-modal-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="preferences-modal__header">
-              <h2 id="preferences-modal-title">Preferences</h2>
-              <button
-                type="button"
-                className="preferences-modal__close"
-                aria-label="Close preferences"
-                onClick={handleClosePreferences}
-              >
-                ×
-              </button>
-            </div>
+      <QuickOrderForm
+        isOpen={isLoggedIn && orderFormOpen}
+        onAddToCart={handleAddToCart}
+      />
 
-            <div className="preferences-modal__content">
-              {kids.length === 0 && (
-                <button
-                  type="button"
-                  className="preferences-modal__add-first"
-                  onClick={handleAddKid}
-                >
-                  Add Kid 1
-                </button>
-              )}
+      <WeeklyMenuBoard isOpen={!isLoggedIn && weeklyMenuOpen} />
 
-              {kids.map((kid) => (
-                <section key={kid.id} className="kid-preferences-card">
-                  <button
-                    type="button"
-                    className="kid-preferences-card__title"
-                    onClick={() => handleKidCollapseToggle(kid.id)}
-                    aria-expanded={!kid.isCollapsed}
-                  >
-                    <span>{kid.name.trim() || 'Kid Name'}</span>
-                    <span className="kid-preferences-card__toggle-icon">
-                      {kid.isCollapsed ? '+' : '−'}
-                    </span>
-                  </button>
-
-                  {!kid.isCollapsed && (
-                    <div className="kid-preferences-card__body">
-                      {kid.showNameInput && (
-                        <div className="kid-preferences-card__name-field">
-                          <label htmlFor={`kid-name-${kid.id}`}>Kid name</label>
-                          <input
-                            id={`kid-name-${kid.id}`}
-                            type="text"
-                            value={kid.name}
-                            placeholder="Enter kid name"
-                            onChange={(event) =>
-                              handleKidNameChange(kid.id, event.target.value)
-                            }
-                            onBlur={() => handleKidNameDone(kid.id)}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter') {
-                                handleKidNameDone(kid.id);
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
-
-                      {preferenceGroups.map((group, groupIndex) => (
-                        <div
-                          key={group.title}
-                          className={`kid-preferences-card__group kid-preferences-card__group--${groupIndex + 1}`}
-                        >
-                          <h4>{group.title}:</h4>
-
-                          <div className="kid-preferences-card__options">
-                            {group.options.map((option) => (
-                              <label
-                                key={option}
-                                className="kid-preferences-card__option"
-                              >
-                                <span>{option}</span>
-                                <input
-                                  type="checkbox"
-                                  checked={kid.preferences[group.title][option]}
-                                  onChange={() =>
-                                    handlePreferenceToggle(
-                                      kid.id,
-                                      group.title,
-                                      option,
-                                    )
-                                  }
-                                />
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              ))}
-
-              {kids.length > 0 && (
-                <button
-                  type="button"
-                  className="preferences-modal__add-more"
-                  onClick={handleAddKid}
-                >
-                  Add Another Kid
-                </button>
-              )}
-            </div>
-
-            <div className="preferences-modal__footer">
-              <button
-                type="button"
-                className="preferences-modal__button preferences-modal__button--secondary"
-                onClick={handleClosePreferences}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="preferences-modal__button preferences-modal__button--primary"
-                onClick={handleSavePreferences}
-              >
-                Save Preferences
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <PreferencesModal
+        isOpen={preferencesOpen}
+        kids={kids}
+        onClose={handleClosePreferences}
+        onAddKid={handleAddKid}
+        onKidNameChange={handleKidNameChange}
+        onKidNameDone={handleKidNameDone}
+        onKidCollapseToggle={handleKidCollapseToggle}
+        onPreferenceToggle={handlePreferenceToggle}
+        onSave={handleSavePreferences}
+      />
     </>
   );
 }
