@@ -33,6 +33,12 @@ function App() {
         <main className="home-page" aria-label="Home page">
           <BrandsScroll />
 
+          <section className="home-sticker" aria-label="Key message">
+            <p>
+              Different kids. Different needs. One simple order.
+            </p>
+          </section>
+
           <section className="big-difference">
             <div className="big-difference__inner">
               <p className="big-difference__eyebrow">The Big Difference</p>
@@ -52,9 +58,7 @@ function App() {
                   Organic, Local &amp; Environmental Product Choices{' '}
                   <em>(Industry Leading)</em>
                 </li>
-                <li>Dedicated Focus on Customer Service</li>
                 <li>Management Culture that focuses on Clients&apos; Needs</li>
-                <li>Community Involvement</li>
                 <li>Desire to Continuously Improve Service</li>
                 <li>Top-Quality of Our Employees</li>
                 <li>Corporate Resources</li>

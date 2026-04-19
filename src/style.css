@@ -87,9 +87,28 @@ body {
 }
 
 .big-difference {
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   display: flex;
   justify-content: center;
+}
+
+.home-sticker {
+  display: flex;
+  justify-content: center;
+}
+.home-sticker p {
+  margin: 0;
+  width: min(100%, 620px);
+  text-align: center;
+  color: #5b3a00;
+  font-weight: 800;
+  font-size: 0.8rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.01em;
+  padding: 0.3rem 1rem;
+  border: 2px solid rgba(141, 90, 0, 0.5);
+  background: radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.5) 0, rgba(255, 255, 255, 0) 36%), radial-gradient(circle at 83% 76%, rgba(255, 220, 110, 0.5) 0, rgba(255, 220, 110, 0) 40%), linear-gradient(140deg, #f6d46a 0%, #eebf3f 45%, #dca127 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 8px 18px rgba(92, 57, 0, 0.28);
 }
 
 .big-difference__inner {
@@ -157,6 +176,14 @@ body {
 }
 
 @media (min-width: 768px) {
+  .home-sticker {
+    padding-top: 0.1rem;
+  }
+  .home-sticker p {
+    font-size: 1.15rem;
+    line-height: 1.45rem;
+    padding: 0.9rem 1.35rem;
+  }
   .big-difference {
     padding: 2.5rem 1.5rem 3rem;
   }
