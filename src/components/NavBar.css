@@ -255,6 +255,21 @@
   margin: 0;
 }
 
+.cart-menu__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.cart-menu__kid {
+  color: #e5e7eb;
+  font-size: 0.64rem;
+  line-height: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+}
+
 .cart-menu__actions {
   display: flex;
   align-items: center;
@@ -421,6 +436,37 @@
   font-size: 0.72rem;
   line-height: 1.1rem;
 }
+.order-form-card__header .order-form-kids {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.order-form-card__header .order-form-kids__button {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e4eaef;
+  padding: 0.22rem 0.55rem;
+  font-size: 0.68rem;
+  line-height: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.order-form-card__header .order-form-kids__button:hover {
+  filter: brightness(1.1);
+}
+.order-form-card__header .order-form-kids__button--active {
+  border-color: #2f7f3e;
+  background: rgba(47, 127, 62, 0.2);
+  color: #ffffff;
+}
+.order-form-card__header .order-form-kids__empty {
+  margin: 0;
+  color: #b9c3cb;
+  font-size: 0.68rem;
+  line-height: 1.05rem;
+}
 
 .order-form-list {
   display: grid;
@@ -475,6 +521,11 @@
 }
 .order-form-item__add:hover {
   filter: brightness(1.1);
+}
+.order-form-item__add:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
 }
 
 .order-form-item__stepper {

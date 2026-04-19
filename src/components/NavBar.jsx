@@ -70,6 +70,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [kids, setKids] = useState([]);
+  const [selectedKidId, setSelectedKidId] = useState(null);
 
   const navRef = useRef(null);
 
@@ -112,6 +113,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
     setUserMenuOpen(false);
     setPreferencesOpen(false);
     setOrderFormOpen(false);
+    setSelectedKidId(null);
   };
 
   const handlePreferences = () => {
@@ -155,15 +157,28 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
     setMainMenuOpen(false);
   };
 
-  const handleAddToCart = (day, item) => {
+  const handleAddToCart = (day, item, kid) => {
+    if (!kid) {
+      return;
+    }
+
+    const kidName = kid.name.trim() || `Kid ${kid.id}`;
+
     setCartItems((currentItems) => {
       const existingItem = currentItems.find(
-        (cartItem) => cartItem.day === day && cartItem.name === item.name,
+        (cartItem) =>
+          cartItem.day === day &&
+          cartItem.name === item.name &&
+          cartItem.kidId === kid.id,
       );
 
       if (existingItem) {
         return currentItems.map((cartItem) => {
-          if (cartItem.day === day && cartItem.name === item.name) {
+          if (
+            cartItem.day === day &&
+            cartItem.name === item.name &&
+            cartItem.kidId === kid.id
+          ) {
             return {
               ...cartItem,
               quantity: cartItem.quantity + 1,
@@ -177,7 +192,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
       return [
         ...currentItems,
         {
-          id: `${day}-${item.name}`,
+          id: `${kid.id}-${day}-${item.name}`,
+          kidId: kid.id,
+          kidName,
           day,
           name: item.name,
           quantity: 1,
@@ -207,10 +224,11 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   };
 
   const handleAddKid = () => {
-    setKids((currentKids) => [
-      ...currentKids,
-      createKid(currentKids.length + 1),
-    ]);
+    setKids((currentKids) => {
+      const newKid = createKid(currentKids.length + 1);
+      setSelectedKidId(newKid.id);
+      return [...currentKids, newKid];
+    });
   };
 
   const handlePreferenceToggle = (kidId, groupTitle, option) => {
@@ -285,6 +303,17 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const handleSavePreferences = () => {
     setPreferencesOpen(false);
   };
+
+  useEffect(() => {
+    if (kids.length === 0) {
+      setSelectedKidId(null);
+      return;
+    }
+
+    if (!kids.some((kid) => kid.id === selectedKidId)) {
+      setSelectedKidId(kids[0].id);
+    }
+  }, [kids, selectedKidId]);
 
   return (
     <div ref={navRef}>
@@ -421,8 +450,10 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
         isOpen={isLoggedIn && orderFormOpen}
         onAddToCart={handleAddToCart}
         cartItems={cartItems}
-        onRemoveFromCart={handleRemoveFromCart}
         onDecreaseCartItem={handleDecreaseCartItem}
+        kids={kids}
+        selectedKidId={selectedKidId}
+        onSelectKid={setSelectedKidId}
       />
 
       <WeeklyMenuBoard isOpen={!isLoggedIn && weeklyMenuOpen} />

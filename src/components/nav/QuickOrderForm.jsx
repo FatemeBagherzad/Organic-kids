@@ -5,13 +5,22 @@ function QuickOrderForm({
   onAddToCart,
   cartItems = [],
   onDecreaseCartItem,
+  kids = [],
+  selectedKidId,
+  onSelectKid,
 }) {
   if (!isOpen) {
     return null;
   }
 
-  const getCartItem = (day, itemName) =>
-    cartItems.find((c) => c.day === day && c.name === itemName) || null;
+  const activeKid = kids.find((kid) => kid.id === selectedKidId) || kids[0] || null;
+
+  const getKidDisplayName = (kid) => kid.name.trim() || `Kid ${kid.id}`;
+
+  const getCartItem = (day, itemName, kidId) =>
+    cartItems.find(
+      (c) => c.day === day && c.name === itemName && c.kidId === kidId,
+    ) || null;
 
   return (
     <section
@@ -23,6 +32,27 @@ function QuickOrderForm({
         <div className="order-form-card__header">
           <h2>Quick Order Form</h2>
           <p>Tap add to include any item in your cart.</p>
+
+          <div className="order-form-kids" role="tablist" aria-label="Select child">
+            {kids.length > 0 ? (
+              kids.map((kid) => (
+                <button
+                  key={kid.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeKid?.id === kid.id}
+                  className={`order-form-kids__button ${activeKid?.id === kid.id ? 'order-form-kids__button--active' : ''}`}
+                  onClick={() => onSelectKid?.(kid.id)}
+                >
+                  {getKidDisplayName(kid)}
+                </button>
+              ))
+            ) : (
+              <p className="order-form-kids__empty">
+                Add kids in Preferences to place kid-specific orders.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="order-form-list">
@@ -37,14 +67,17 @@ function QuickOrderForm({
                   >
                     <p>{item.name}</p>
                     {(() => {
-                      const cartItem = getCartItem(dayMenu.day, item.name);
+                      const cartItem = activeKid
+                        ? getCartItem(dayMenu.day, item.name, activeKid.id)
+                        : null;
+
                       return cartItem ? (
                         <div className="order-form-item__stepper">
                           <button
                             type="button"
                             className="order-form-item__stepper-btn"
                             aria-label="Increase quantity"
-                            onClick={() => onAddToCart(dayMenu.day, item)}
+                            onClick={() => onAddToCart(dayMenu.day, item, activeKid)}
                           >
                             ▲
                           </button>
@@ -66,7 +99,8 @@ function QuickOrderForm({
                         <button
                           type="button"
                           className="order-form-item__add"
-                          onClick={() => onAddToCart(dayMenu.day, item)}
+                          onClick={() => onAddToCart(dayMenu.day, item, activeKid)}
+                          disabled={!activeKid}
                         >
                           Add
                         </button>
