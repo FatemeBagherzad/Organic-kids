@@ -135,7 +135,7 @@ export const preferenceGroups = [
     options: ['Vegetarian', 'Vegan', 'Halal', 'Kosher', 'Pescatarian'],
   },
   {
-    title: 'Nutrition / health',
+    title: 'Nutrition limitation',
     options: [
       'Low sugar',
       'Low sodium',

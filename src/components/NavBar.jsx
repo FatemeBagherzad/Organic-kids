@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './NavBar.scss';
 import CartMenu from './nav/CartMenu';
 import QuickOrderForm from './nav/QuickOrderForm';
@@ -70,6 +70,23 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [kids, setKids] = useState([]);
+
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setMainMenuOpen(false);
+        setUserMenuOpen(false);
+        setCartOpen(false);
+        setWeeklyMenuOpen(false);
+        setOrderFormOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -247,7 +264,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   };
 
   return (
-    <>
+    <div ref={navRef}>
       <nav className="nav-bar nav-bar-1" aria-label="Main navigation">
         <div className="main-menu-area">
           <button
@@ -319,7 +336,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
               onClick={handleToggleCart}
             >
               Cart
-              <span className="nav-cart-btn__count">{cartItems.length}</span>
+              <span className="nav-cart-btn__count">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</span>
             </button>
           </div>
 
@@ -392,7 +409,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
         onPreferenceToggle={handlePreferenceToggle}
         onSave={handleSavePreferences}
       />
-    </>
+    </div>
   );
 }
 
