@@ -1,0 +1,44 @@
+@use '../../styles/partials/variables' as *;
+
+.user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 3px);
+  width: 172px;
+  padding: 0.25rem;
+  overflow: hidden;
+  z-index: 1000;
+  border-radius: 5px;
+  background: rgba(16, 24, 34, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: $shadow-md;
+  backdrop-filter: blur(8px);
+
+  button {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    padding: 0.45rem 0.6rem;
+    background: transparent;
+    color: #eef3f7;
+    text-align: left;
+    font-size: 0.68rem;
+    line-height: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba($color-red-700, 0.6);
+      outline-offset: 1px;
+    }
+  }
+}

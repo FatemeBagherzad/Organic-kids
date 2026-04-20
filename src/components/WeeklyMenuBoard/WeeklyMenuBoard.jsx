@@ -1,4 +1,5 @@
-import { weeklyMenu } from './navData';
+import { weeklyMenu } from '../../data/siteData';
+import './WeeklyMenuBoard.scss';
 
 function WeeklyMenuBoard({ isOpen }) {
   if (!isOpen) {
@@ -6,7 +7,11 @@ function WeeklyMenuBoard({ isOpen }) {
   }
 
   return (
-    <section id="weekly-menu-panel" className="weekly-menu-inline" aria-label="Weekly menu">
+    <section
+      id="weekly-menu-panel"
+      className="weekly-menu-inline"
+      aria-label="Weekly menu"
+    >
       <div className="weekly-menu-modal weekly-menu-modal--inline">
         <div className="weekly-menu-modal__header">
           <div>
@@ -38,7 +43,9 @@ function WeeklyMenuBoard({ isOpen }) {
                         >
                           {item.name}
                         </p>
-                        {item.note && <p className="menu-line__note">{item.note}</p>}
+                        {item.note && (
+                          <p className="menu-line__note">{item.note}</p>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -85,10 +92,12 @@ function WeeklyMenuBoard({ isOpen }) {
             <i className="legend-ring" aria-hidden="true" /> Organic
           </span>
           <span>
-            <i className="marker-dot marker-dot--green" aria-hidden="true" /> Green Vegetables
+            <i className="marker-dot marker-dot--green" aria-hidden="true" />{' '}
+            Green Vegetables
           </span>
           <span>
-            <i className="marker-dot marker-dot--orange" aria-hidden="true" /> Orange Vegetables
+            <i className="marker-dot marker-dot--orange" aria-hidden="true" />{' '}
+            Orange Vegetables
           </span>
         </div>
       </div>

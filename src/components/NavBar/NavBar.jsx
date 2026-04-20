@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createKid, mainMenuItems } from '../../data/siteData';
+import MainMenu from '../MainMenu/MainMenu';
+import UserMenu from '../UserMenu/UserMenu';
+import CartMenu from '../CartMenu/CartMenu';
+import QuickOrderForm from '../QuickOrderForm/QuickOrderForm';
+import WeeklyMenuBoard from '../WeeklyMenuBoard/WeeklyMenuBoard';
+import PreferencesModal from '../PreferencesModal/PreferencesModal';
 import './NavBar.scss';
-import CartMenu from './nav/CartMenu';
-import QuickOrderForm from './nav/QuickOrderForm';
-import WeeklyMenuBoard from './nav/WeeklyMenuBoard';
-import PreferencesModal from './nav/PreferencesModal';
-import { createKid, mainMenuItems } from './nav/navData';
 
 const HamburgerIcon = () => (
   <svg
@@ -71,7 +73,6 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const [cartItems, setCartItems] = useState([]);
   const [kids, setKids] = useState([]);
   const [selectedKidId, setSelectedKidId] = useState(null);
-
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -102,6 +103,23 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [orderFormOpen]);
 
+  useEffect(() => {
+    if (kids.length === 0) {
+      setSelectedKidId(null);
+      return;
+    }
+
+    if (!kids.some((kid) => kid.id === selectedKidId)) {
+      setSelectedKidId(kids[0].id);
+    }
+  }, [kids, selectedKidId]);
+
+  const closeMenus = () => {
+    setMainMenuOpen(false);
+    setUserMenuOpen(false);
+    setCartOpen(false);
+  };
+
   const handleLogin = () => {
     setIsLoggedIn(true);
     setUserMenuOpen(false);
@@ -116,23 +134,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
     setSelectedKidId(null);
   };
 
-  const handlePreferences = () => {
-    setPreferencesOpen(true);
-    setUserMenuOpen(false);
-  };
-
-  const handleClosePreferences = () => {
-    setPreferencesOpen(false);
-  };
-
   const handleOpenContactPage = () => {
-    if (typeof onNavigateContact === 'function') {
-      onNavigateContact();
-    }
-
-    setMainMenuOpen(false);
-    setUserMenuOpen(false);
-    setCartOpen(false);
+    onNavigateContact?.();
+    closeMenus();
   };
 
   const handleToggleWeeklyMenu = () => {
@@ -173,20 +177,13 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
       );
 
       if (existingItem) {
-        return currentItems.map((cartItem) => {
-          if (
-            cartItem.day === day &&
-            cartItem.name === item.name &&
-            cartItem.kidId === kid.id
-          ) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + 1,
-            };
-          }
-
-          return cartItem;
-        });
+        return currentItems.map((cartItem) =>
+          cartItem.day === day &&
+          cartItem.name === item.name &&
+          cartItem.kidId === kid.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
+        );
       }
 
       return [
@@ -217,10 +214,6 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
         )
         .filter((item) => item.quantity > 0),
     );
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
   };
 
   const handleAddKid = () => {
@@ -254,16 +247,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
 
   const handleKidNameChange = (kidId, value) => {
     setKids((currentKids) =>
-      currentKids.map((kid) => {
-        if (kid.id !== kidId) {
-          return kid;
-        }
-
-        return {
-          ...kid,
-          name: value,
-        };
-      }),
+      currentKids.map((kid) =>
+        kid.id === kidId ? { ...kid, name: value } : kid,
+      ),
     );
   };
 
@@ -275,7 +261,6 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
         }
 
         const trimmedName = kid.name.trim();
-
         return {
           ...kid,
           name: trimmedName,
@@ -287,33 +272,11 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
 
   const handleKidCollapseToggle = (kidId) => {
     setKids((currentKids) =>
-      currentKids.map((kid) => {
-        if (kid.id !== kidId) {
-          return kid;
-        }
-
-        return {
-          ...kid,
-          isCollapsed: !kid.isCollapsed,
-        };
-      }),
+      currentKids.map((kid) =>
+        kid.id === kidId ? { ...kid, isCollapsed: !kid.isCollapsed } : kid,
+      ),
     );
   };
-
-  const handleSavePreferences = () => {
-    setPreferencesOpen(false);
-  };
-
-  useEffect(() => {
-    if (kids.length === 0) {
-      setSelectedKidId(null);
-      return;
-    }
-
-    if (!kids.some((kid) => kid.id === selectedKidId)) {
-      setSelectedKidId(kids[0].id);
-    }
-  }, [kids, selectedKidId]);
 
   return (
     <div ref={navRef}>
@@ -337,30 +300,14 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
             Contact Us
           </button>
 
-          {mainMenuOpen && (
-            <div
-              id="main-menu"
-              className="main-menu"
-              role="menu"
-              aria-label="Main menu"
-            >
-              {mainMenuItems.map((item) => (
-                <button
-                  key={item.label}
-                  className="main-menu__item"
-                  role="menuitem"
-                  onClick={() => {
-                    setMainMenuOpen(false);
-                    if (typeof onNavigateHome === 'function') {
-                      onNavigateHome();
-                    }
-                  }}
-                >
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
+          <MainMenu
+            isOpen={mainMenuOpen}
+            items={mainMenuItems}
+            onSelect={() => {
+              setMainMenuOpen(false);
+              onNavigateHome?.();
+            }}
+          />
         </div>
 
         <div className="account-area">
@@ -369,7 +316,7 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
               <button
                 className="nav-icon-btn"
                 aria-label="Open user menu"
-                onClick={() => setUserMenuOpen((o) => !o)}
+                onClick={() => setUserMenuOpen((open) => !open)}
               >
                 <UserIcon />
               </button>
@@ -393,22 +340,19 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
             </button>
           </div>
 
-          {isLoggedIn && userMenuOpen && (
-            <div className="user-menu" role="menu" aria-label="User menu">
-              <button role="menuitem" onClick={handlePreferences}>
-                Add your kids{' '}
-              </button>
-              <button role="menuitem">Payment Method</button>
-              <button role="menuitem" onClick={handleLogout}>
-                Logout
-              </button>
-            </div>
-          )}
+          <UserMenu
+            isOpen={isLoggedIn && userMenuOpen}
+            onPreferences={() => {
+              setPreferencesOpen(true);
+              setUserMenuOpen(false);
+            }}
+            onLogout={handleLogout}
+          />
 
           <CartMenu
             cartOpen={cartOpen}
             cartItems={cartItems}
-            onClearCart={handleClearCart}
+            onClearCart={() => setCartItems([])}
             onRemoveItem={handleRemoveFromCart}
           />
         </div>
@@ -460,13 +404,13 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
       <PreferencesModal
         isOpen={preferencesOpen}
         kids={kids}
-        onClose={handleClosePreferences}
+        onClose={() => setPreferencesOpen(false)}
         onAddKid={handleAddKid}
         onKidNameChange={handleKidNameChange}
         onKidNameDone={handleKidNameDone}
         onKidCollapseToggle={handleKidCollapseToggle}
         onPreferenceToggle={handlePreferenceToggle}
-        onSave={handleSavePreferences}
+        onSave={() => setPreferencesOpen(false)}
       />
     </div>
   );

@@ -1,4 +1,5 @@
-import { weeklyMenu } from './navData';
+import { weeklyMenu } from '../../data/siteData';
+import './QuickOrderForm.scss';
 
 function QuickOrderForm({
   isOpen,
@@ -13,13 +14,15 @@ function QuickOrderForm({
     return null;
   }
 
-  const activeKid = kids.find((kid) => kid.id === selectedKidId) || kids[0] || null;
+  const activeKid =
+    kids.find((kid) => kid.id === selectedKidId) || kids[0] || null;
 
   const getKidDisplayName = (kid) => kid.name.trim() || `Kid ${kid.id}`;
 
   const getCartItem = (day, itemName, kidId) =>
     cartItems.find(
-      (c) => c.day === day && c.name === itemName && c.kidId === kidId,
+      (item) =>
+        item.day === day && item.name === itemName && item.kidId === kidId,
     ) || null;
 
   return (
@@ -33,7 +36,11 @@ function QuickOrderForm({
           <h2>Quick Order Form</h2>
           <p>Tap add to include any item in your cart.</p>
 
-          <div className="order-form-kids" role="tablist" aria-label="Select child">
+          <div
+            className="order-form-kids"
+            role="tablist"
+            aria-label="Select child"
+          >
             {kids.length > 0 ? (
               kids.map((kid) => (
                 <button
@@ -60,24 +67,26 @@ function QuickOrderForm({
             <section key={`order-${dayMenu.day}`} className="order-form-day">
               <h3>{dayMenu.day}</h3>
               <div className="order-form-day__items">
-                {dayMenu.items.map((item, index) => (
-                  <div
-                    key={`order-${dayMenu.day}-${index}`}
-                    className="order-form-item"
-                  >
-                    <p>{item.name}</p>
-                    {(() => {
-                      const cartItem = activeKid
-                        ? getCartItem(dayMenu.day, item.name, activeKid.id)
-                        : null;
+                {dayMenu.items.map((item, index) => {
+                  const cartItem = activeKid
+                    ? getCartItem(dayMenu.day, item.name, activeKid.id)
+                    : null;
 
-                      return cartItem ? (
+                  return (
+                    <div
+                      key={`order-${dayMenu.day}-${index}`}
+                      className="order-form-item"
+                    >
+                      <p>{item.name}</p>
+                      {cartItem ? (
                         <div className="order-form-item__stepper">
                           <button
                             type="button"
                             className="order-form-item__stepper-btn"
                             aria-label="Increase quantity"
-                            onClick={() => onAddToCart(dayMenu.day, item, activeKid)}
+                            onClick={() =>
+                              onAddToCart(dayMenu.day, item, activeKid)
+                            }
                           >
                             ▲
                           </button>
@@ -88,9 +97,7 @@ function QuickOrderForm({
                             type="button"
                             className="order-form-item__stepper-btn"
                             aria-label="Decrease quantity"
-                            onClick={() => {
-                              onDecreaseCartItem(cartItem.id);
-                            }}
+                            onClick={() => onDecreaseCartItem(cartItem.id)}
                           >
                             ▼
                           </button>
@@ -99,15 +106,17 @@ function QuickOrderForm({
                         <button
                           type="button"
                           className="order-form-item__add"
-                          onClick={() => onAddToCart(dayMenu.day, item, activeKid)}
+                          onClick={() =>
+                            onAddToCart(dayMenu.day, item, activeKid)
+                          }
                           disabled={!activeKid}
                         >
                           Add
                         </button>
-                      );
-                    })()}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </section>
           ))}

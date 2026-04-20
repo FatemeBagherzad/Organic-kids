@@ -1,0 +1,319 @@
+.weekly-menu-inline {
+  margin-top: 74px;
+  padding: 0.7rem 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.weekly-menu-modal {
+  width: min(100%, 980px);
+  padding: 1rem;
+  background: linear-gradient(180deg, #f7f2e9 0%, #f3ede2 100%);
+  color: #2d261f;
+  border: 2px solid rgba(76, 61, 40, 0.2);
+  border-radius: 5px;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+}
+
+.weekly-menu-modal--inline {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.weekly-menu-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.weekly-menu-modal__header h2 {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  color: #3b3024;
+}
+
+.weekly-menu-modal__eyebrow {
+  margin: 0 0 0.3rem;
+  font-size: 0.7rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #897966;
+}
+
+.weekly-menu-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.menu-day-card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  min-height: 98px;
+}
+
+.menu-day-card__label {
+  background: var(--menu-accent);
+  color: #ffffff;
+  border-radius: 5px;
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-day-card__label span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.menu-day-card__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px 30px;
+  background: #fffdf8;
+  border: 1px solid rgba(64, 49, 32, 0.4);
+  border-left: 0;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.75);
+}
+
+.menu-day-card__items {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  padding: 0.15rem 0;
+  background: repeating-linear-gradient(to bottom, var(--menu-stripe) 0, var(--menu-stripe) 18px, rgba(255, 255, 255, 0.8) 18px, rgba(255, 255, 255, 0.8) 36px);
+}
+
+.menu-line {
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 0.15rem 0.8rem;
+}
+
+.menu-line__name,
+.menu-line__note {
+  margin: 0;
+}
+
+.menu-line__name {
+  font-size: 0.78rem;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #292118;
+}
+
+.menu-line__name--vegetarian {
+  text-transform: uppercase;
+}
+
+.menu-line__note {
+  font-size: 0.68rem;
+  line-height: 1.05;
+  color: #4c443c;
+}
+
+.menu-day-card__callout {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--callout-accent);
+  font-size: 0.95rem;
+  line-height: 1;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: center;
+}
+.menu-day-card__callout span:last-child {
+  max-width: 100px;
+}
+
+.menu-day-card__callout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 3px solid currentColor;
+  border-radius: 5px;
+  font-size: 1.15rem;
+  transform: rotate(-12deg);
+}
+
+.menu-day-card__legend-rail,
+.menu-day-card__marker-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0.35rem 0;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.menu-day-card__legend-rail {
+  border-left: 1px solid rgba(64, 49, 32, 0.5);
+}
+
+.menu-day-card__marker-rail {
+  border-left: 1px solid rgba(64, 49, 32, 0.5);
+  border-right: 1px solid rgba(64, 49, 32, 0.5);
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.12);
+}
+
+.menu-day-card__legend-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16px;
+}
+
+.legend-ring {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #2f2a24;
+  border-radius: 5px;
+  display: inline-block;
+  background: transparent;
+}
+
+.legend-ring--filled {
+  background: #ffffff;
+}
+
+.marker-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.marker-dot--organic {
+  background: #ffffff;
+  border: 2px solid #2f2a24;
+}
+
+.marker-dot--green {
+  background: #8cc449;
+}
+
+.marker-dot--orange {
+  background: #f38a31;
+}
+
+.weekly-menu-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.3rem;
+  margin-top: 1rem;
+  padding-left: 0.25rem;
+  font-size: 0.76rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #36291b;
+}
+.weekly-menu-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (min-width: 768px) {
+  .weekly-menu-inline {
+    margin-top: 76px;
+    padding-inline: 1.25rem;
+  }
+  .weekly-menu-modal {
+    padding: 1.25rem 1.3rem 1.1rem;
+  }
+  .weekly-menu-modal__header {
+    margin-bottom: 1.2rem;
+  }
+  .weekly-menu-modal__header h2 {
+    font-size: 1.45rem;
+  }
+  .menu-day-card {
+    grid-template-columns: 66px minmax(0, 1fr);
+    min-height: 106px;
+  }
+  .menu-day-card__label span {
+    font-size: 0.88rem;
+  }
+  .menu-line {
+    padding-inline: 0.95rem;
+  }
+  .menu-line__name {
+    font-size: 0.84rem;
+  }
+  .menu-line__note {
+    font-size: 0.72rem;
+  }
+  .menu-day-card__callout {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 767px) {
+  .weekly-menu-inline {
+    margin-top: 68px;
+    padding: 0.55rem 0.55rem 0;
+  }
+  .weekly-menu-modal {
+    padding: 0.85rem;
+  }
+  .weekly-menu-modal__header h2 {
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .menu-day-card {
+    grid-template-columns: 44px minmax(0, 1fr);
+    min-height: 132px;
+  }
+  .menu-day-card__content {
+    grid-template-columns: minmax(0, 1fr) 28px 24px;
+  }
+  .menu-day-card__items {
+    grid-template-rows: none;
+    padding-block: 0.2rem;
+    background: repeating-linear-gradient(to bottom, var(--menu-stripe) 0, var(--menu-stripe) 22px, rgba(255, 255, 255, 0.85) 22px, rgba(255, 255, 255, 0.85) 44px);
+  }
+  .menu-line {
+    min-height: 22px;
+    padding: 0.18rem 0.55rem;
+  }
+  .menu-line__name {
+    font-size: 0.67rem;
+  }
+  .menu-line__note {
+    font-size: 0.58rem;
+  }
+  .menu-day-card__callout {
+    right: 0.5rem;
+    bottom: 0.55rem;
+    font-size: 0.72rem;
+  }
+  .menu-day-card__callout span:last-child {
+    max-width: 62px;
+  }
+  .menu-day-card__callout-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.85rem;
+    border-width: 2px;
+  }
+  .weekly-menu-key {
+    font-size: 0.68rem;
+    gap: 0.6rem 0.85rem;
+  }
+}

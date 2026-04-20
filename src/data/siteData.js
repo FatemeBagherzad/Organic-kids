@@ -1,9 +1,9 @@
-import ourStoryIcon from '../../assets/Our Story.png';
-import ourAmazingFriendsIcon from '../../assets/Our Amazing friends.png';
-import howScrumptiousIcon from '../../assets/How Scrumptious.png';
-import theBigDifferenceIcon from '../../assets/The Big Difference.png';
-import notSoSweetIcon from '../../assets/Not So Sweet.png';
-import organicKidsTvIcon from '../../assets/Organic Kids TV.png';
+import ourStoryIcon from '../assets/Our Story.png';
+import ourAmazingFriendsIcon from '../assets/Our Amazing friends.png';
+import howScrumptiousIcon from '../assets/How Scrumptious.png';
+import theBigDifferenceIcon from '../assets/The Big Difference.png';
+import notSoSweetIcon from '../assets/Not So Sweet.png';
+import organicKidsTvIcon from '../assets/Organic Kids TV.png';
 
 export const homeIconItems = [
   { label: 'Our Story', icon: ourStoryIcon },

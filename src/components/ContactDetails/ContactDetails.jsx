@@ -1,3 +1,5 @@
+import './ContactDetails.scss';
+
 const contactInfo = {
   addressLine1: '505 Queensway Ave. E., UN12,',
   addressLine2: 'Mississauga, Ontario.',
@@ -13,24 +15,24 @@ function ContactDetails() {
   return (
     <section className="contact-details" aria-label="Contact information">
       <div className="contact-details__panel">
-        <span className="contact-details__label">Email:&nbsp; </span>
+        <span className="contact-details__label">Email</span>
         <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
       </div>
 
       <div className="contact-details__panel">
-        <span className="contact-details__label">Phone:&nbsp; </span>
+        <span className="contact-details__label">Phone</span>
         <a href={`tel:${contactInfo.phone.replace(/[^\d+]/g, '')}`}>
           {contactInfo.phone}
         </a>
       </div>
 
       <div className="contact-details__panel">
-        <span className="contact-details__label">Office </span>
+        <span className="contact-details__label">Office</span>
         <p>{fullAddress}</p>
       </div>
 
       <div className="contact-details__panel">
-        <span className="contact-details__label">Hours </span>
+        <span className="contact-details__label">Hours</span>
         <p>{contactInfo.workingHours}</p>
       </div>
     </section>

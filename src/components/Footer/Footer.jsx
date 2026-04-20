@@ -1,7 +1,8 @@
-import footerLogos from '../assets/footer_logos.png';
-import iconFacebook from '../assets/Icons/Icon-facebook.svg';
-import iconInstagram from '../assets/Icons/Icon-instagram.svg';
-import iconTwitter from '../assets/Icons/Icon-twitter.svg';
+import footerLogos from '../../assets/footer_logos.png';
+import iconFacebook from '../../assets/Icons/Icon-facebook.svg';
+import iconInstagram from '../../assets/Icons/Icon-instagram.svg';
+import iconTwitter from '../../assets/Icons/Icon-twitter.svg';
+import './Footer.scss';
 
 const footerItems = ['Inspection Report', 'Certifications'];
 

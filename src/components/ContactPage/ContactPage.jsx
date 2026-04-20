@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import ContactDetails, { contactInfo } from './ContactDetails';
+import ContactDetails, { contactInfo } from '../ContactDetails/ContactDetails';
+import './ContactPage.scss';
 
 function ContactPage() {
   const [formData, setFormData] = useState({

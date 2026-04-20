@@ -1,0 +1,145 @@
+@use '../../styles/partials/variables' as *;
+
+.cart-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  width: min(90vw, 310px);
+  padding: 0.7rem;
+  z-index: 1100;
+  border-radius: 5px;
+  background: $color-grey-0;
+  border: 1px solid $color-grey-200;
+  box-shadow: $shadow-md;
+}
+
+.cart-menu__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+
+  h3 {
+    margin: 0;
+    color: $color-grey-900;
+    font-size: 0.85rem;
+    line-height: 1.2rem;
+  }
+}
+
+.cart-menu__clear {
+  border: 0;
+  background: transparent;
+  color: $color-red-700;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.cart-menu__empty {
+  color: $color-grey-500;
+  font-size: 0.72rem;
+  line-height: 1.1rem;
+}
+
+.cart-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.cart-menu__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba($color-grey-200, 0.65);
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+}
+
+.cart-menu__item-row,
+.cart-menu__meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.cart-menu__name {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  color: $color-grey-900;
+  font-size: 0.72rem;
+  line-height: 1.05rem;
+  font-weight: 700;
+}
+
+.cart-menu__day {
+  margin: 0;
+  color: $color-grey-500;
+  font-size: 0.6rem;
+  line-height: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cart-menu__kid {
+  margin: 0;
+  color: $color-grey-700;
+  font-size: 0.64rem;
+  line-height: 0.95rem;
+  font-weight: 700;
+}
+
+.cart-menu__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  button {
+    border: 0;
+    background: transparent;
+    color: $color-red-700;
+    font-size: 0.66rem;
+    line-height: 1;
+    cursor: pointer;
+    font-weight: 700;
+  }
+}
+
+.cart-menu__qty {
+  color: $color-grey-900;
+  font-size: 0.68rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.cart-menu__pay-now {
+  width: 100%;
+  margin-top: 0.65rem;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-radius: 5px;
+  background: $color-red-700;
+  color: $color-grey-900;
+  font-size: 0.72rem;
+  line-height: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}

@@ -9,30 +9,31 @@
 .brands-scroll-track {
   display: flex;
   gap: 1rem;
-  animation: scroll-left 30s linear infinite;
   width: fit-content;
   padding: 0 2rem;
+  animation: brands-scroll-left 30s linear infinite;
 }
 
 .brands-scroll-item {
+  min-width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: 60px;
+
+  img {
+    max-width: 100%;
+    height: 30px;
+    object-fit: contain;
+    display: block;
+  }
 }
 
-.brands-scroll-item img {
-  max-width: 100%;
-  height: 30px;
-  object-fit: contain;
-  display: block;
-}
-
-@keyframes scroll-left {
+@keyframes brands-scroll-left {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -51,10 +52,10 @@
 
   .brands-scroll-item {
     min-width: 90px;
-  }
 
-  .brands-scroll-item img {
-    height: 46px;
+    img {
+      height: 46px;
+    }
   }
 }
 
@@ -71,9 +72,9 @@
 
   .brands-scroll-item {
     min-width: 110px;
-  }
 
-  .brands-scroll-item img {
-    height: 52px;
+    img {
+      height: 52px;
+    }
   }
 }

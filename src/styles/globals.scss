@@ -1,0 +1,14 @@
+@use './partials/fonts';
+@use './partials/global';
+
+body {
+  min-height: 100vh;
+  background-image: var(--page-bg);
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+#root {
+  min-height: 100vh;
+}

@@ -1,0 +1,295 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
+.preferences-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 74px 0.75rem 0.75rem;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.preferences-modal {
+  width: min(100%, 760px);
+  max-height: min(78vh, 860px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: $color-grey-0;
+  border-radius: 5px;
+  box-shadow: $shadow-md;
+}
+
+.preferences-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.72rem 0.75rem 0.55rem;
+  border-bottom: 1px solid $color-grey-200;
+}
+
+.preferences-modal__header-main {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.preferences-modal__close {
+  border: 0;
+  background: transparent;
+  color: $color-grey-700;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.preferences-modal__content {
+  padding: 0.72rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+}
+
+.preferences-modal__add-first,
+.preferences-modal__add-more,
+.preferences-modal__button {
+  border: 0;
+  border-radius: 5px;
+  padding: 0.65rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.preferences-modal__add-first--header {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.68rem;
+  line-height: 1rem;
+  white-space: nowrap;
+}
+
+.preferences-modal__add-first,
+.preferences-modal__add-more,
+.preferences-modal__button--primary {
+  background: $color-red-700;
+  color: $color-grey-900;
+}
+
+.preferences-modal__button--secondary {
+  background: $color-grey-200;
+  color: $color-grey-900;
+}
+
+.preferences-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  padding: 0.62rem 0.75rem 0.75rem;
+  border-top: 1px solid $color-grey-200;
+}
+
+.kid-preferences-card {
+  border: 1px solid $color-grey-200;
+  border-radius: 5px;
+  background: rgba($color-green-100, 0.14);
+  overflow: hidden;
+}
+
+.kid-preferences-card__title {
+  width: 100%;
+  margin: 0;
+  padding: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid $color-grey-200;
+  background: transparent;
+}
+
+.kid-preferences-card__name-value {
+  min-width: 0;
+  color: $color-grey-900;
+  font-size: 0.95rem;
+  line-height: 1.35rem;
+  font-weight: 700;
+}
+
+.kid-preferences-card__toggle-btn {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $color-grey-900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kid-preferences-card__toggle-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.kid-preferences-card__body {
+  padding: 0.72rem;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.kid-preferences-card__groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.62rem;
+  align-items: start;
+}
+
+.kid-preferences-card__name-field {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.62rem;
+
+  label {
+    margin: 0;
+    color: $color-grey-900;
+    font-size: 0.78rem;
+    line-height: 1.2rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    border: 1px solid $color-grey-200;
+    border-radius: 5px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+    color: $color-grey-900;
+    background: $color-grey-0;
+  }
+}
+
+.kid-preferences-card__name-field--title {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.kid-preferences-card__group {
+  min-width: 0;
+  padding: 0.55rem;
+  border: 1px solid rgba($color-grey-200, 0.9);
+  border-radius: 5px;
+
+  h4 {
+    margin: 0 0 0.55rem;
+    color: #1f2a24;
+    font-size: 0.78rem;
+    line-height: 1.2rem;
+  }
+}
+
+.kid-preferences-card__group--1 {
+  background: #edf7ea;
+}
+
+.kid-preferences-card__group--2 {
+  background: #f2f5ef;
+}
+
+.kid-preferences-card__group--3 {
+  background: #f6efe7;
+}
+
+.kid-preferences-card__options {
+  display: flex;
+  flex-direction: column;
+}
+
+.kid-preferences-card__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px solid rgba($color-grey-200, 0.8);
+  color: #1f2a24;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: $color-red-700;
+  }
+}
+
+@include tablet {
+  .preferences-modal-overlay {
+    padding: 76px 1rem 1rem;
+  }
+
+  .preferences-modal__header {
+    padding: 0.8rem 0.95rem 0.62rem;
+  }
+
+  .preferences-modal__content {
+    padding: 0.9rem;
+  }
+
+  .preferences-modal__footer {
+    padding: 0.72rem 0.95rem 0.95rem;
+  }
+
+  .kid-preferences-card__title {
+    padding: 0.8rem;
+  }
+
+  .kid-preferences-card__body {
+    padding: 0.8rem;
+  }
+
+  .kid-preferences-card__option {
+    font-size: 0.8125rem;
+    line-height: 1.2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .preferences-modal-overlay {
+    padding: 68px 0.55rem 0.55rem;
+  }
+
+  .preferences-modal {
+    max-height: min(80vh, 820px);
+  }
+
+  .kid-preferences-card__groups {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 0.1rem;
+  }
+}

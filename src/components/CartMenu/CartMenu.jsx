@@ -1,3 +1,5 @@
+import './CartMenu.scss';
+
 function CartMenu({ cartOpen, cartItems, onClearCart, onRemoveItem }) {
   if (!cartOpen) {
     return null;
@@ -8,7 +10,11 @@ function CartMenu({ cartOpen, cartItems, onClearCart, onRemoveItem }) {
       <div className="cart-menu__header">
         <h3>Cart</h3>
         {cartItems.length > 0 && (
-          <button type="button" className="cart-menu__clear" onClick={onClearCart}>
+          <button
+            type="button"
+            className="cart-menu__clear"
+            onClick={onClearCart}
+          >
             Clear
           </button>
         )}
@@ -29,7 +35,9 @@ function CartMenu({ cartOpen, cartItems, onClearCart, onRemoveItem }) {
                   <p className="cart-menu__name">{item.name}</p>
                   <div className="cart-menu__actions">
                     <span className="cart-menu__qty">x{item.quantity}</span>
-                    <button type="button" onClick={() => onRemoveItem(item.id)}>Remove</button>
+                    <button type="button" onClick={() => onRemoveItem(item.id)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
               </li>
