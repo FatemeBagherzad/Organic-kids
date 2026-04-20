@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import ContactPage from './components/ContactPage';
 import BrandsScroll from './components/BrandsScroll';
+import { homeIconItems } from './components/nav/navData';
 
 function App() {
   const [activePage, setActivePage] = useState('home');
@@ -34,36 +35,21 @@ function App() {
           <BrandsScroll />
 
           <section className="home-sticker" aria-label="Key message">
-            <p>
-              Different kids. Different needs. One simple order.
-            </p>
+            <p>Different kids. Different needs. One simple order.</p>
           </section>
 
-          <section className="big-difference">
-            <div className="big-difference__inner">
-              <p className="big-difference__eyebrow">The Big Difference</p>
-              <h2 className="big-difference__title">Why Choose Organic Kids</h2>
-              <p className="big-difference__intro">
-                <strong>Strong Customer Focus.</strong> We always put our
-                customers first. Focusing on YOUR needs enables us to achieve
-                high levels of quality and service, with a strong competitive
-                advantage.
-              </p>
-              <p className="big-difference__sub">
-                With Organic Kids Catering, you can trust in the following:
-              </p>
-              <ul className="big-difference__list">
-                <li>Our 40+ Year Name &amp; Reputation</li>
-                <li>
-                  Organic, Local &amp; Environmental Product Choices{' '}
-                  <em>(Industry Leading)</em>
-                </li>
-                <li>Management Culture that focuses on Clients&apos; Needs</li>
-                <li>Desire to Continuously Improve Service</li>
-                <li>Top-Quality of Our Employees</li>
-                <li>Corporate Resources</li>
-              </ul>
-            </div>
+          <section className="home-menu-grid" aria-label="Home topics">
+            {homeIconItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                className="home-menu-grid__card"
+                onClick={() => setActivePage('home')}
+                aria-label={item.label}
+              >
+                <img src={item.icon} alt="" aria-hidden="true" />
+              </button>
+            ))}
           </section>
         </main>
       ) : (

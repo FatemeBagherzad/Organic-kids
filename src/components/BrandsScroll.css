@@ -40,40 +40,40 @@
 
 @media (min-width: 768px) {
   .brands-scroll-container {
-    padding: 1rem 0;
-    margin: 1.5rem 0;
+    padding: 0.45rem 0;
+    margin: 0.45rem 0;
   }
 
   .brands-scroll-track {
-    gap: 1rem;
-    padding: 0 3rem;
+    gap: 1.1rem;
+    padding: 0 1.25rem;
   }
 
-  /* .brands-scroll-item {
-    min-width: 150px;
-  } */
+  .brands-scroll-item {
+    min-width: 90px;
+  }
 
   .brands-scroll-item img {
-    height: 80px;
+    height: 46px;
   }
 }
 
 @media (min-width: 1024px) {
   .brands-scroll-container {
-    padding: 3rem 0;
-    margin: 2rem 0;
+    padding: 0.55rem 0;
+    margin: 0.6rem 0;
   }
 
   .brands-scroll-track {
-    gap: 4rem;
-    padding: 0 4rem;
+    gap: 1.4rem;
+    padding: 0 1.5rem;
   }
 
   .brands-scroll-item {
-    min-width: 180px;
+    min-width: 110px;
   }
 
   .brands-scroll-item img {
-    height: 96px;
+    height: 52px;
   }
 }

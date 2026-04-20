@@ -356,7 +356,6 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
                     }
                   }}
                 >
-                  <img src={item.icon} alt="" aria-hidden="true" />
                   <span>{item.label}</span>
                 </button>
               ))}

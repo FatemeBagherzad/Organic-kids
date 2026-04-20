@@ -5,13 +5,24 @@ import theBigDifferenceIcon from '../../assets/The Big Difference.png';
 import notSoSweetIcon from '../../assets/Not So Sweet.png';
 import organicKidsTvIcon from '../../assets/Organic Kids TV.png';
 
-export const mainMenuItems = [
+export const homeIconItems = [
   { label: 'Our Story', icon: ourStoryIcon },
   { label: 'Our Amazing Friends', icon: ourAmazingFriendsIcon },
   { label: 'How Scrumptious', icon: howScrumptiousIcon },
   { label: 'The Big Difference', icon: theBigDifferenceIcon },
   { label: 'Not So Sweet', icon: notSoSweetIcon },
   { label: 'Organic Kids TV', icon: organicKidsTvIcon },
+];
+
+export const mainMenuItems = [
+  { label: 'OUR MISSION & CORE VALUES' },
+  { label: 'OUR COMMITMENT' },
+  { label: 'REGIONS WE SERVE' },
+  { label: 'THE FOOD' },
+  { label: 'INSPECTION REPORT' },
+  { label: 'CERTIFICATIONS' },
+  { label: 'TESTIMONIALS' },
+  { label: 'O.K.T.V.' },
 ];
 
 export const weeklyMenu = [
