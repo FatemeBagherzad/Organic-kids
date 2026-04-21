@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createKid, mainMenuItems } from '../../data/siteData';
 import MainMenu from '../MainMenu/MainMenu';
 import UserMenu from '../UserMenu/UserMenu';
@@ -73,6 +73,8 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   const [cartItems, setCartItems] = useState([]);
   const [kids, setKids] = useState([]);
   const [selectedKidId, setSelectedKidId] = useState(null);
+  const [loginPromptVisible, setLoginPromptVisible] = useState(false);
+  const loginPromptTimerRef = useRef(null);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -145,11 +147,20 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
     setUserMenuOpen(false);
   };
 
+  const dismissLoginPrompt = useCallback(() => {
+    setLoginPromptVisible(false);
+    clearTimeout(loginPromptTimerRef.current);
+  }, []);
+
   const handleToggleOrderForm = () => {
     if (!isLoggedIn) {
+      setLoginPromptVisible(true);
+      clearTimeout(loginPromptTimerRef.current);
+      loginPromptTimerRef.current = setTimeout(dismissLoginPrompt, 3000);
       return;
     }
 
+    dismissLoginPrompt();
     setOrderFormOpen((open) => !open);
     setMainMenuOpen(false);
     setUserMenuOpen(false);
@@ -162,25 +173,24 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
   };
 
   const handleAddToCart = (day, item, kid) => {
-    if (!kid) {
-      return;
-    }
-
-    const kidName = kid.name.trim() || `Kid ${kid.id}`;
+    const targetKidId = kid?.id ?? 'no-kid';
+    const targetKidName = kid
+      ? kid.name.trim() || `Kid ${kid.id}`
+      : 'General order';
 
     setCartItems((currentItems) => {
       const existingItem = currentItems.find(
         (cartItem) =>
           cartItem.day === day &&
           cartItem.name === item.name &&
-          cartItem.kidId === kid.id,
+          cartItem.kidId === targetKidId,
       );
 
       if (existingItem) {
         return currentItems.map((cartItem) =>
           cartItem.day === day &&
           cartItem.name === item.name &&
-          cartItem.kidId === kid.id
+          cartItem.kidId === targetKidId
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem,
         );
@@ -189,9 +199,9 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
       return [
         ...currentItems,
         {
-          id: `${kid.id}-${day}-${item.name}`,
-          kidId: kid.id,
-          kidName,
+          id: `${targetKidId}-${day}-${item.name}`,
+          kidId: targetKidId,
+          kidName: targetKidName,
           day,
           name: item.name,
           quantity: 1,
@@ -360,20 +370,28 @@ function NavBar({ onNavigateContact, onNavigateHome }) {
 
       <nav className="nav-bar nav-bar-2" aria-label="Actions">
         <div className="nav-actions">
-          <button
-            className="btn btn--primary"
-            type="button"
-            data-order-form-toggle="true"
-            onClick={handleToggleOrderForm}
-            aria-expanded={orderFormOpen}
-            aria-controls="order-form-panel"
-          >
-            {isLoggedIn
-              ? orderFormOpen
-                ? 'Hide Order Form'
-                : 'Order Now'
-              : 'Order Now'}
-          </button>
+          <div className="nav-order-btn-wrap">
+            <button
+              className="btn btn--primary"
+              type="button"
+              data-order-form-toggle="true"
+              onClick={handleToggleOrderForm}
+              aria-expanded={orderFormOpen}
+              aria-controls="order-form-panel"
+            >
+              {isLoggedIn
+                ? orderFormOpen
+                  ? 'Hide Order Form'
+                  : 'Order Now'
+                : 'Order Now'}
+            </button>
+
+            {loginPromptVisible && (
+              <span className="nav-login-prompt" role="status">
+                Please log in to place an order
+              </span>
+            )}
+          </div>
 
           {!isLoggedIn && (
             <button

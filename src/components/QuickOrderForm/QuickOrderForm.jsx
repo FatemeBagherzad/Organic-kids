@@ -19,11 +19,27 @@ function QuickOrderForm({
 
   const getKidDisplayName = (kid) => kid.name.trim() || `Kid ${kid.id}`;
 
-  const getCartItem = (day, itemName, kidId) =>
-    cartItems.find(
-      (item) =>
-        item.day === day && item.name === itemName && item.kidId === kidId,
-    ) || null;
+  const getActivePreferences = (kid) => {
+    if (!kid?.preferences) return [];
+    return Object.values(kid.preferences).flatMap((group) =>
+      Object.entries(group)
+        .filter(([, active]) => active)
+        .map(([label]) => label),
+    );
+  };
+
+  const getCartItem = (day, itemName, kidId) => {
+    const targetKidId = kidId ?? 'no-kid';
+
+    return (
+      cartItems.find(
+        (item) =>
+          item.day === day &&
+          item.name === itemName &&
+          item.kidId === targetKidId,
+      ) || null
+    );
+  };
 
   return (
     <section
@@ -56,10 +72,16 @@ function QuickOrderForm({
               ))
             ) : (
               <p className="order-form-kids__empty">
-                Add kids in Preferences to place kid-specific orders.
+                No kids added yet. You can still place a general order.
               </p>
             )}
           </div>
+
+          {activeKid && getActivePreferences(activeKid).length > 0 && (
+            <p className="order-form-kids__prefs">
+              {getActivePreferences(activeKid).join(' · ')}
+            </p>
+          )}
         </div>
 
         <div className="order-form-list">
@@ -68,9 +90,11 @@ function QuickOrderForm({
               <h3>{dayMenu.day}</h3>
               <div className="order-form-day__items">
                 {dayMenu.items.map((item, index) => {
-                  const cartItem = activeKid
-                    ? getCartItem(dayMenu.day, item.name, activeKid.id)
-                    : null;
+                  const cartItem = getCartItem(
+                    dayMenu.day,
+                    item.name,
+                    activeKid?.id,
+                  );
 
                   return (
                     <div
@@ -109,7 +133,6 @@ function QuickOrderForm({
                           onClick={() =>
                             onAddToCart(dayMenu.day, item, activeKid)
                           }
-                          disabled={!activeKid}
                         >
                           Add
                         </button>
