@@ -4,17 +4,17 @@
   padding: 0.15rem 1rem 0.85rem;
 }
 .home-sticker p {
-  margin: 0;
+  margin-top: 0.5rem;
   width: min(100%, 620px);
   position: relative;
   overflow: hidden;
   text-align: center;
   color: #5b3a00;
   font-weight: 800;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   line-height: 1.25rem;
   letter-spacing: 0.01em;
-  padding: 0.3rem 1rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 999px;
   border: 2px solid rgba(141, 90, 0, 0.5);
   background: radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.5) 0, rgba(255, 255, 255, 0) 36%), radial-gradient(circle at 83% 76%, rgba(255, 220, 110, 0.5) 0, rgba(255, 220, 110, 0) 40%), linear-gradient(120deg, #f9de7a 0%, #f0c94e 40%, #dea62b 72%, #f4d465 100%);
@@ -36,10 +36,6 @@
   transform: rotate(18deg);
   pointer-events: none;
   animation: sticker-shimmer 4.6s linear infinite;
-}
-.home-sticker__highlight {
-  font-size: 1rem;
-  font-weight: bold;
 }
 
 @keyframes sticker-float {
