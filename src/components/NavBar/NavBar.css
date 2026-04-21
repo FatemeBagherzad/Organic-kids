@@ -3,7 +3,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: min(100%, 1180px);
-  height: 35px;
+  height: 44px;
   display: flex;
   align-items: center;
   padding-inline: 1rem;
@@ -14,6 +14,7 @@
 }
 @media (min-width: 768px) {
   .nav-bar {
+    height: 35px;
     padding-inline: 1.5rem;
   }
 }
@@ -25,9 +26,14 @@
 }
 
 .nav-bar-2 {
-  top: 35px;
+  top: 44px;
   justify-content: center;
   z-index: 20;
+}
+@media (min-width: 768px) {
+  .nav-bar-2 {
+    top: 35px;
+  }
 }
 
 .main-menu-area,
@@ -62,9 +68,9 @@
 }
 
 .nav-contact-btn {
-  padding: 0.2rem 0.7rem;
-  font-size: 0.6875rem;
-  line-height: 1rem;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
 }
 .nav-contact-btn:hover {
   filter: brightness(1.1);
@@ -78,8 +84,8 @@
 }
 
 .nav-icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   display: grid;
   place-items: center;
@@ -90,8 +96,8 @@
   cursor: pointer;
 }
 .nav-icon-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 .nav-icon-btn:hover {
   background: rgba(99, 102, 241, 0.1);
@@ -108,11 +114,11 @@
 }
 
 .nav-login-btn {
-  padding: 0.2rem 0.75rem;
+  padding: 0.28rem 0.8rem;
   background: #166534;
   color: #f9fafb;
-  font-size: 0.6875rem;
-  line-height: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
 }
 .nav-login-btn:hover {
   filter: brightness(1.15);
@@ -126,12 +132,12 @@
 }
 
 .nav-cart-btn {
-  padding: 0.2rem 0.55rem;
+  padding: 0.28rem 0.65rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.6875rem;
-  line-height: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
 }
 .nav-cart-btn:hover {
   filter: brightness(1.08);
@@ -159,9 +165,9 @@
 }
 
 .btn {
-  padding: 0.25rem 0.85rem;
-  font-size: 0.6875rem;
-  line-height: 1rem;
+  padding: 0.28rem 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
   font-weight: 600;
   white-space: nowrap;
 }
